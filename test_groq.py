@@ -2,10 +2,10 @@ from dotenv import load_dotenv
 import os
 from langchain_groq import ChatGroq
 
-# .env file se API key load karo
+# .env file se API key load karna
 load_dotenv()
 
-# Check karo key mili ya nahi
+# Check key mili ya nahi
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
     print("ERROR: GROQ_API_KEY nahi mili! .env file check karo.")
