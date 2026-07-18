@@ -21,30 +21,40 @@ vectorstore = FAISS.load_local(
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 #Step 5: Query lo aur relevant chunks retrieve karo
-query = "Deadlock kya hota hai?"
-results = vectorstore.similarity_search(query, k=3)
+while True:
+    query = input("\nApna sawaal poocho (exit likhne se band ho jayega): ")
+    if query.lower() == "exit":
+        break
 
-#Step 6: Retrieved chunks ko ek context string me jodo
-context = "\n\n".join([r.page_content for r in results])
+    results = vectorstore.similarity_search(query, k=5)
 
-#Step 7: Prompt banao(context + query LLM ko bhejne ke liye)
-prompt = f"""Neeche diye gaye context ke basis par question ka answer do.
-Agar context me answer nahi hai to bol do "Is context me ye information nahi hai."
+    #Step 6: Retrieved chunks ko ek context string me jodo
+    context = "\n\n".join([r.page_content for r in results])
 
-Context:
-{context}
+    #Step 7: Prompt banao(context + query LLM ko bhejne ke liye)
+    prompt = f"""Neeche diye gaye context ko dhyan se padho. Context me headings, bullet points hain — poora content carefully scan karo.
+    Context ke basis par question ka clear answer do apne shabdo me.
+    Sirf tab "Is context me ye information nahi hai" bolo jab sach me related content bilkul na mile.
 
-Question: {query}
-Answer: """
+    Context:
+    {context}
 
-#Step 8: Groq LLM ko call karo
-response = client.chat.completions.create(
-    model="llama-3.3-70b-versatile",
-    messages=[
+    Question: {query}
+    Answer: """
+
+    print("\n[DEBUG] Full Prompt:\n", prompt)
+
+    #Step 8: Groq LLM ko call karo
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
         {"role": "user", "content": prompt}
-    ]
-)
+        ]
+    )
 
-#Step 9: Answer print karo
-print("Answer:\n")
-print(response.choices[0].message.content)
+    #Step 9: Answer print karo
+    print("Answer:\n")
+    print(response.choices[0].message.content)
+
+    context = "\n\n".join([r.page_content for r in results])
+    print("\n[DEBUG] Retrieved Context:\n", context)   

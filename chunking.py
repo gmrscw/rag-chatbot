@@ -11,8 +11,8 @@ print(f"Total pages loaded: {len(pages)}")
 
 # Step 2: Text splitter banao
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,      # har chunk mein max 1000 characters
-    chunk_overlap=200,    # consecutive chunks mein 200 characters overlap
+    chunk_size=500,      # har chunk mein max 1000 characters
+    chunk_overlap=100,    # consecutive chunks mein 200 characters overlap
 )
 chunks = text_splitter.split_documents(pages)
 print(f"Total chunks created: {len(chunks)}")
