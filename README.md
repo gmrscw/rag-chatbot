@@ -1,8 +1,12 @@
-# RAG Chatbot
+# notes.chat — RAG Chatbot
 
 An AI-powered study assistant that answers questions from your own PDF notes and previous year question papers (PYQs) using Retrieval-Augmented Generation (RAG).
 
 Upload your notes, ask a question, and get answers grounded in your actual course material — not generic internet knowledge.
+
+## Demo
+
+![notes.chat demo](screenshots/demo.png)
 
 ## Features
 
